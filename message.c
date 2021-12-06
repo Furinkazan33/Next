@@ -1,33 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct message_ {
-    int id;
-    int message_id;
-    int from_id;
-    int to_id;
-    char info[50];
-} Message;
+#include "message.h"
 
 
-Message *messages_queue[200] = { 0 };
-int nb_messages = 0;
-
-
-enum message_list { CLOSING = 10, OPENING, HIDING, MAXIMIZING, RESTORING, 
-    CALCULATING, WAITING, MOVING, MOVING_TO, RESIZING, DRAWING, SAVING, 
-    MESSAGE, MESSAGE_TO, WAITING_MESSAGE, WAITING_MESSAGE_FROM, 
-    NEED_MORE_PRIOR, NEED_LESS_PRIOR, NEED_MORE_MEM, NEED_LESS_MEM };
-
-
-Message *new(int id, int message_id, int from, int to, const char *info) {
+Message *message_new(int id, int ident, int from, int to, const char *info) {
     int i = 0;
     Message *mess = (Message *) malloc(sizeof(Message));
 
     mess->id = id;
-    mess->message_id = message_id;
-    mess->from_id = from;
-    mess->to_id = to;
+    mess->ident = ident;
+    mess->from = from;
+    mess->to = to;
 
     while(info[i] != '\0') {
         mess->info[i] = info[i];
@@ -37,37 +20,24 @@ Message *new(int id, int message_id, int from, int to, const char *info) {
     return mess;
 }
 
-int add_to_queue(Message *message) {
-    messages_queue[nb_messages++] = message;
-    messages_queue[nb_messages] = NULL;
 
-    printf("New message : %d %d %s\n", message->id, message->message_id, message->info);
-
-    return 0;
+void message_print_header() {
+    printf("id\tmess_id\t\tfrom\tto\tinfo\n");
 }
 
-void print_queue(void) {
-    int i = 0;
-    Message *message;
-
-    while(messages_queue[i] != NULL) {
-        message = messages_queue[i++];
-        printf("%d %d %s\n", message->id, message->message_id, message->info);
-    }
+void message_print_details(Message *m) {
+    printf("%d\t%d\t\t%d\t%d\t%s\n", m->id, m->ident, m->from, m->to, m->info);
 }
 
 /*
-   int main (void) {
+   int main(void) {
+   Message *m = message_new(1, OPENING, 0, 0, "test");
 
-   Message *message = new(1, CLOSING, 1, 2, "un test");
-   add_to_queue(message);
-
-   message = new(1, CLOSING, 2, 3, "un test 2");
-   add_to_queue(message);
-
-   print_queue();
+   message_print_header();
+   message_print_details(m);
 
    return 0;
+
    }
    */
 

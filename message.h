@@ -1,10 +1,15 @@
 
-typedef struct message_ Message;
+typedef struct message_ {
+    int id;
+    int ident;
+    int from;
+    int to;
+    char info[50];
+} Message;
 
-int add_to_queue(Message *m);
-int print_queue();
-
-Message *new(int id, int message_id, int from, int to, const char *info); 
+Message *message_new(int id, int ident, int from, int to, const char *info); 
+void message_print_header();
+void message_print_details(Message *m);
 
 enum message_list { CLOSING = 10, OPENING, HIDING, MAXIMIZING, RESTORING, 
     CALCULATING, WAITING, MOVING, MOVING_TO, RESIZING, DRAWING, SAVING, 
