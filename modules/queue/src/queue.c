@@ -8,7 +8,7 @@ node_t *queue_head = NULL;
 node_t *queue_new(void *data, size_t size) {
     node_t *node = (node_t *) malloc(sizeof(node_t));
     node->data = data;
-        
+    
     return node;
 }
 

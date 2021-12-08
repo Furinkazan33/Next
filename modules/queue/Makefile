@@ -1,21 +1,19 @@
 
-
 MAKE=make
+CC=gcc -Iinc -Wall
 
-all: 
-	$(MAKE) -C modules/window
-	$(MAKE) -C modules/tree
-	$(MAKE) -C modules/queue
-	$(MAKE) -C modules/message
-	$(MAKE) -C tests
-
+all: queue
+    
+queue:
+	$(CC) -c src/queue.c -o obj/queue.o
+	ar -cvq libcqueue.a obj/queue.o
+	cp inc/queue.h ../../include
+	cp obj/queue.o ../../obj
+	cp libcqueue.a ../../lib/
+	
 clean:
-	rm -f *~ core
-	$(MAKE) clean -C modules/window 
-	$(MAKE) clean -C modules/tree 
-	$(MAKE) clean -C modules/queue
-	$(MAKE) clean -C modules/message
-	$(MAKE) clean -C tests
+	rm -f src/*~ *~ core
+
 
 # $@: the target filename.
 # $*: the target filename without the file extension.

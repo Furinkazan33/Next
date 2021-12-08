@@ -1,21 +1,19 @@
 
-
 MAKE=make
+CC=gcc -Iinc -Wall
 
-all: 
-	$(MAKE) -C modules/window
-	$(MAKE) -C modules/tree
-	$(MAKE) -C modules/queue
-	$(MAKE) -C modules/message
-	$(MAKE) -C tests
-
+all: tree
+    
+tree:
+	$(CC) -c src/tree.c -o obj/tree.o
+	ar -cvq libctree.a obj/tree.o
+	cp inc/tree.h ../../include
+	cp obj/tree.o ../../obj
+	cp libctree.a ../../lib/
+	
 clean:
-	rm -f *~ core
-	$(MAKE) clean -C modules/window 
-	$(MAKE) clean -C modules/tree 
-	$(MAKE) clean -C modules/queue
-	$(MAKE) clean -C modules/message
-	$(MAKE) clean -C tests
+	rm -f src/*~ *~ core
+
 
 # $@: the target filename.
 # $*: the target filename without the file extension.

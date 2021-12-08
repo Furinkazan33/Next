@@ -1,23 +1,15 @@
-ROOT=/home/mathieu/repos/Next
-TEST=$(ROOT)/test
-F_SRC=$(ROOT)/src
-F_INC=$(F_SRC)/include
-F_OBJ=$(ROOT)/obj
 MAKE=make
-CC=gcc
-CFLAGS=-I$(F_INC) -Wall
+CC=gcc -L../lib -I../include -Wall
 
-all:  
-	$(CC) $(CFLAGS) $(F_OBJ)/message.o $(F_OBJ)/queue.o $(F_OBJ)/tree.o $(TEST)/main.c -o $(TEST)/main.o
+all: 
+	$(CC) main.c -o main.o -lcmessage -lcqueue -lctree -lcwindow
 	
 
-.PHONY: clean cleanall
+.PHONY: clean
    
 clean:
-	rm -f $(TEST)/*~ $(TEST)/core
+	rm -f *~ core
 
-cleanall: clean
-	rm $(TEST)/*.o
 
     
 # $@: the target filename.
