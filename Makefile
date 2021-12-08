@@ -1,16 +1,26 @@
-CC=gcc
-CFLAGS=-I$(INC) -Wall
 
-all: message
+F_SRC=src
+F_TEST=test
+MAKE=make
 
-message: message.c
-	ar rcu message.a message.o
+all: sources tests
 
+sources: 
+	$(MAKE) all -f $(F_SRC)/Makefile
 
-.PHONY: clean
+tests: 
+	$(MAKE) all -f $(F_TEST)/Makefile
+	
 
+.PHONY: clean cleanall
+   
 clean:
-		rm -f *.a *.o *~ core 
+	$(MAKE) clean -f $(F_SRC)/Makefile
+	$(MAKE) clean -f $(F_TEST)/Makefile	
+
+cleanall: clean
+	$(MAKE) cleanall -f $(F_SRC)/Makefile
+	$(MAKE) cleanall -f $(F_TEST)/Makefile	
 
 # $@: the target filename.
 # $*: the target filename without the file extension.

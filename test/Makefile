@@ -1,4 +1,5 @@
 ROOT=/home/mathieu/repos/Next
+TEST=$(ROOT)/test
 F_SRC=$(ROOT)/src
 F_INC=$(F_SRC)/include
 F_OBJ=$(ROOT)/obj
@@ -6,29 +7,17 @@ MAKE=make
 CC=gcc
 CFLAGS=-I$(F_INC) -Wall
 
-all: message queue tree window
-
-message:
-	$(CC) $(CFLAGS) -c $(F_SRC)/message.c -o $(F_OBJ)/message.o
-
-queue:
-	$(CC) $(CFLAGS) -c $(F_SRC)/queue.c -o $(F_OBJ)/queue.o
-
-
-tree:
-	$(CC) $(CFLAGS) -c $(F_SRC)/tree.c -o $(F_OBJ)/tree.o
-
-window:
-	$(CC) $(CFLAGS) -c $(F_SRC)/window.c -o $(F_OBJ)/window.o
-
+all:  
+	$(CC) $(CFLAGS) $(F_OBJ)/message.o $(F_OBJ)/queue.o $(F_OBJ)/tree.o $(TEST)/main.c -o $(TEST)/main.o
+	
 
 .PHONY: clean cleanall
    
 clean:
-	rm -f $(F_SRC)/*~ $(F_SRC)/core
+	rm -f $(TEST)/*~ $(TEST)/core
 
 cleanall: clean
-	rm $(F_OBJ)/*.o
+	rm $(TEST)/*.o
 
     
 # $@: the target filename.
