@@ -1,24 +1,50 @@
+#include <stdlib.h>
 
 
-/* Graphic context structure definition */
-typedef struct gc {
-    int x;
-    int y;
-    int w;
-    int h;
-} Gcontext;
+/* Low level element */
+typedef struct menuitem {
+    char *name; // Displayed name
+    void *onClick; // Function to call
+} MenuItem;
 
-/* Window structure definition */
+/* Low level element container toggled when topmenu is clicked */
+typedef struct menubox {
+    MenuItem *menuitem;
+} MenuBox;
+
+/* Top level menu  */
+typedef struct topmenu {
+    char *name; // Displayed in the menu bar
+    MenuBox *menubox;
+    struct topmenu *next;
+} TopMenu;
+
+/* Menu bar contained in window */
+typedef struct menubar {
+    TopMenu *topmenu;
+} MenuBar;
+
 typedef struct window {
-    Gcontext *context;
     char *title;
-    
+    MenuBar *menubar;
+    int x; int y;
+    int w; int h;
+
 } Window;
 
-/* Allocating new graphic context */
-Gcontext *gc_new(int x, int y, int w, int h);
+/* Allocating new MenuItem */
+MenuItem *w_new_menuitem(char *name, void *onClick, MenuBox *menubox);
 
-/* Allocating new window */
-Window *w_new(Gcontext *gc, char *title);
+/* Allocating new MenuBox */
+MenuBox *w_new_menubox(MenuItem *menuitem);
+
+/* Allocating new TopMenu */
+TopMenu *w_new_topmenu(char *name, MenuBox *menubox, TopMenu *next);
+
+/* Allocating new MenuBar */
+MenuBar *w_new_menubar(TopMenu *topmenu);
+
+/* Allocating new Window */
+Window *w_new(char *title, MenuBar *menubar, int x, int y, int w, int h);
 
 
