@@ -2,22 +2,27 @@
 
 MAKE=make
 
-list:
-	@echo "all=src\ntests\nmodules"
+.PHONY:
+	clean
 
-all: 
-	$(MAKE) -C src
-
-tests:
+test:
 	$(MAKE) -C tests
 
-modules:
+src: 
+	$(MAKE) -C src
+
+
+mods:
 	$(MAKE) -C modules
 
 clean:
 	rm -f *~ core
 	$(MAKE) clean -C src
 	$(MAKE) clean -C tests
+
+
+list:
+	@echo "src\ntest\nmods\nclean"
 
 
 # $@: the target filename.
