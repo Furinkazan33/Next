@@ -2,23 +2,18 @@
 
 MAKE=make
 
-list:
-	@echo "all=src\ntests\nmodules"
-
 all: 
-	$(MAKE) -C src
-
-tests:
-	$(MAKE) -C tests
-
-modules:
-	$(MAKE) -C modules
+	$(MAKE) -C window
+	$(MAKE) -C tree
+	$(MAKE) -C queue
+	$(MAKE) -C message
 
 clean:
 	rm -f *~ core
-	$(MAKE) clean -C src
-	$(MAKE) clean -C tests
-
+	$(MAKE) clean -C window 
+	$(MAKE) clean -C tree 
+	$(MAKE) clean -C queue
+	$(MAKE) clean -C message
 
 # $@: the target filename.
 # $*: the target filename without the file extension.

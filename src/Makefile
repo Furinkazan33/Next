@@ -1,25 +1,17 @@
-
-
 MAKE=make
-
-list:
-	@echo "all=src\ntests\nmodules"
+CC=gcc -L../lib -I../include -Wall
 
 all: 
-	$(MAKE) -C src
+	$(CC) main.c -o main.o -lcmessage -lcqueue -lctree -lcwindow
+	
 
-tests:
-	$(MAKE) -C tests
-
-modules:
-	$(MAKE) -C modules
-
+.PHONY: clean
+   
 clean:
 	rm -f *~ core
-	$(MAKE) clean -C src
-	$(MAKE) clean -C tests
 
 
+    
 # $@: the target filename.
 # $*: the target filename without the file extension.
 # $<: the first prerequisite filename.
