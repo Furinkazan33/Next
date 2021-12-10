@@ -9,11 +9,12 @@
 /* Basic tree structure */
 typedef struct tree {
     void *content;
-    struct tree *children[MAX_CHILDREN];
-    int z;
+    struct tree *children[MAX_CHILDREN + 1];
+    int z;  // Number of children. children[z] set to NULL for commodities 
+            // when adding/removinng a child
 } Tree;
 
-/* Allocating new leaf and return it */
+/* Allocating new node and return it */
 Tree *allocate_tree(void *content, size_t size);
 
 /* Add child to parent's children list */
@@ -26,7 +27,7 @@ void tree_swap_children(Tree *tree, int from, int to);
 void tree_free(Tree *tree);
 
 /* Remove child to parent's children list */
-void tree_remove(Tree *tree, int idx);
+void tree_remove_child(Tree *tree, int idx);
 
 
 

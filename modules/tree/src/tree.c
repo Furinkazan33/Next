@@ -43,15 +43,13 @@ void tree_free(Tree *tree) {
         tree_free(tree->children[i]);
     }
 
-    tree->children[0] = NULL;
-    tree->z = 0;
-
+    free(tree->children);
     free(tree->content);
     free(tree);
 }
 
 /* Remove child to parent's children list */
-void tree_remove(Tree *tree, int idx) {
+void tree_remove_child(Tree *tree, int idx) {
     int i;
 
     printf("Removing children with index %d\n", idx);
