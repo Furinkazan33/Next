@@ -7,8 +7,8 @@ all: tree
 tree:
 	$(CC) -c src/tree.c -o obj/tree.o
 	ar -cvq libctree.a obj/tree.o
-	cp inc/tree.h ../../include
-	cp obj/tree.o ../../obj
+	cp inc/tree.h ../../include/
+	cp obj/tree.o ../../obj/
 	cp libctree.a ../../lib/
 	
 clean:

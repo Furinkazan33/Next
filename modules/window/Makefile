@@ -7,12 +7,12 @@ all: window
 window:
 	$(CC) -c src/window.c -o obj/window.o
 	ar -cvq libcwindow.a obj/window.o
-	cp inc/window.h ../../include
-	cp obj/window.o ../../obj
+	cp inc/window.h ../../include/
+	cp obj/window.o ../../obj/
 	cp libcwindow.a ../../lib/
 	
 clean:
-	rm -f src/*~ *~ core
+	rm -f src/*~ inc/*~ *~ core
 
 
 # $@: the target filename.

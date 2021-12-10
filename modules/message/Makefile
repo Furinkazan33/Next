@@ -7,8 +7,8 @@ all: message
 message:
 	$(CC) -c src/message.c -o obj/message.o
 	ar -cvq libcmessage.a obj/message.o
-	cp inc/message.h ../../include
-	cp obj/message.o ../../obj
+	cp inc/message.h ../../include/
+	cp obj/message.o ../../obj/
 	cp libcmessage.a ../../lib/
 
 clean:

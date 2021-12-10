@@ -7,8 +7,8 @@ all: queue
 queue:
 	$(CC) -c src/queue.c -o obj/queue.o
 	ar -cvq libcqueue.a obj/queue.o
-	cp inc/queue.h ../../include
-	cp obj/queue.o ../../obj
+	cp inc/queue.h ../../include/
+	cp obj/queue.o ../../obj/
 	cp libcqueue.a ../../lib/
 	
 clean:
