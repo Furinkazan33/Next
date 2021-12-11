@@ -1,5 +1,5 @@
 MAKE=make
-CC=gcc -L../lib -I../include -Wall
+CC=gcc -L../modules/ -I../include -Wall
 
 all: 
 	$(CC) main.c -o main.o -lcmessage -lcqueue -lctree -lcwindow

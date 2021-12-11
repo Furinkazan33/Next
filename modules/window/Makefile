@@ -1,18 +1,16 @@
 
 MAKE=make
-CC=gcc -Iinc -Wall
+CC=gcc -I./ -Wall
 
 all: window
     
 window:
-	$(CC) -c src/window.c -o obj/window.o
-	ar -cvq libcwindow.a obj/window.o
-	cp inc/window.h ../../include/
-	cp obj/window.o ../../obj/
-	cp libcwindow.a ../../lib/
+	$(CC) -c window.c -o window.o
+	ar -cvq libcwindow.a window.o
+	mv *.a ../
 	
 clean:
-	rm -f src/*~ inc/*~ *~ core
+	rm -f *~ core
 
 
 # $@: the target filename.

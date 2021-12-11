@@ -1,15 +1,13 @@
 
 MAKE=make
-CC=gcc -Iinc -Wall
+CC=gcc -I./ -Wall
 
 all: tree
     
 tree:
-	$(CC) -c src/tree.c -o obj/tree.o
-	ar -cvq libctree.a obj/tree.o
-	cp inc/tree.h ../../include/
-	cp obj/tree.o ../../obj/
-	cp libctree.a ../../lib/
+	$(CC) -c tree.c -o tree.o
+	ar -cvq libctree.a tree.o
+	mv *.a ../
 	
 clean:
 	rm -f src/*~ *~ core

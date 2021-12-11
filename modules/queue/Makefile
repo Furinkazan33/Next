@@ -1,15 +1,13 @@
 
 MAKE=make
-CC=gcc -Iinc -Wall
+CC=gcc -I./ -Wall
 
 all: queue
     
 queue:
-	$(CC) -c src/queue.c -o obj/queue.o
-	ar -cvq libcqueue.a obj/queue.o
-	cp inc/queue.h ../../include/
-	cp obj/queue.o ../../obj/
-	cp libcqueue.a ../../lib/
+	$(CC) -c queue.c -o queue.o
+	ar -cvq libcqueue.a queue.o
+	mv *.a ../
 	
 clean:
 	rm -f src/*~ *~ core
