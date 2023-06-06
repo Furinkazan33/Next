@@ -5,10 +5,12 @@
 #include <tree.h>
 
 /* Allocating new leaf and return it */
-Tree *allocate_tree(void *content, size_t size) {
+Tree *allocate_tree(void *content) {
+
+    printf("malloc %d\n", sizeof(Tree));
+
     Tree *tree = (Tree *) malloc(sizeof(Tree));
-    tree->content = (void *) malloc(size);
-    memcpy(tree->content, content, size);
+    tree->content = content;
     tree->children[0] = NULL;
     tree->z = 0;
 
@@ -22,29 +24,34 @@ void tree_add_child(Tree *tree, Tree *child) {
     tree->children[tree->z] = NULL;
 }
 
-/* Swap two children by given index */
-void tree_swap_children(Tree *tree, int from, int to) {
+/* Swap two children by given indexes */
+void tree_swap_children(Tree *tree, int idx1, int idx2) {
     Tree *tmp;
 
-    printf("Swaping children with indexes %d and %d\n", from, to);
+    printf("Swaping children with indexes %d and %d\n", idx1, idx2);
 
-    assert(from < to);
-
-    tmp = tree->children[from];
-    tree->children[from] = tree->children[to];
-    tree->children[to] = tmp;
+    tmp = tree->children[idx1];
+    tree->children[idx1] = tree->children[idx2];
+    tree->children[idx2] = tmp;
 }
 
-/* Free tree recursively */
-void tree_free(Tree *tree) {
+/* Free tree recursively 
+   With custom free function for content
+*/
+void tree_free(Tree *tree, void (*content_free_func)(void *)) {
     int i = 0;
 
-    for (i = 0; i < tree->z; i++) {
-        tree_free(tree->children[i]);
+    for (i = tree->z - 1; i >= 0; i--) {
+        tree_free(tree->children[i], content_free_func);
     }
 
-    free(tree->children);
-    free(tree->content);
+    tree->z=0;
+    
+    if(content_free_func != NULL && tree->content != NULL) {
+        printf("Appel custom free sur %d\n", &tree->content);
+        content_free_func(tree->content);    
+    }
+    printf("avant free tree : %d\n", &tree->content);
     free(tree);
 }
 
@@ -54,7 +61,7 @@ void tree_remove_child(Tree *tree, int idx) {
 
     printf("Removing children with index %d\n", idx);
 
-    tree_free(tree->children[idx]);
+    tree_free(tree->children[idx], NULL);
 
     for (i = idx; i < tree->z; i++) {
         tree->children[i] = tree->children[i + 1];
@@ -64,55 +71,65 @@ void tree_remove_child(Tree *tree, int idx) {
 }
 
 
+void content_free_func(void *p) {
+    printf("%d\n", p);
+    tree_free(p, NULL);
+}
 
-/*
+
+void tree_print(Tree *tree) {
+    Tree *tmp;
+    int i;
+   
+    printf("Parent %d with %d children : \n", &tree->content, tree->z);
+    
+    for (i = 0; tree->children[i] != NULL; i++) {
+        tmp = tree->children[i];
+        printf("Child %d with %d children\n", &tmp->content, tmp->z);
+    }
+    
+    printf("\n");
+}
+
    int main(void) {
-   Tree *tmp;
-   int i;
-   char *s1 = "test 1";
-   char *s2 = "test 2";
-   char *s3 = "test 3";
-   char *s4 = "test 4";
+   
+   char *p0 = "p0";
+   char *c0 = "c0";
+   char *c1 = "c1";
+   char *c2 = "c2";
 
-   Tree *t1 = allocate_tree(s1, 7);
-   Tree *t2 = allocate_tree(s2, 7);
-   Tree *t3 = allocate_tree(s3, 7);
-   Tree *t4 = allocate_tree(s4, 7);
-
+   Tree *t1 = allocate_tree(p0);
+   Tree *t2 = allocate_tree(c0);
+   Tree *t3 = allocate_tree(c1);
+   Tree *t4 = allocate_tree(c2);
+   
    tree_add_child(t1, t2);
    tree_add_child(t1, t3);
    tree_add_child(t1, t4);
 
-   printf("%s with %d children : \n", t1->content, t1->z);
-   for (i = 0; t1->children[i] != NULL; i++) {
-   tmp = t1->children[i];
-   printf("%s with %d children\n", tmp->content, tmp->z);
-   }
-   printf("\n");
+   tree_print(t1);
 
    tree_swap_children(t1, 0, 2);
-   printf("%s with %d children : \n", t1->content, t1->z);
-   for (i = 0; t1->children[i] != NULL; i++) {
-   tmp = t1->children[i];
-   printf("%s with %d children\n", tmp->content, tmp->z);
-   }
-   printf("\n");
+   tree_print(t1);
 
-   tree_remove(t1, 1);
-   printf("%s with %d children : \n", t1->content, t1->z);
-   for (i = 0; i < t1->z; i++) {
-   tmp = t1->children[i];
-   printf("%s with %d children\n", tmp->content, tmp->z);
-   }
+   tree_remove_child(t1, 1);
+   tree_print(t1);
+   
+   tree_swap_children(t1, 1, 0);
+   tree_print(t1);
 
-
-
-   tree_free(t1); 
-
+   tree_free(t1, NULL);
+   
+   
+   Tree *t5 = allocate_tree(NULL);
+   Tree *t6 = allocate_tree(t5);
+   tree_add_child(t6, t5);
+   tree_print(t6);
+   tree_free(t6, content_free_func);
 
    return 0;
    }
-   */
+   
 
 
 
